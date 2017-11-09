@@ -2,16 +2,32 @@ pipeline {
   agent any
   stages {
     stage('syncing files') {
+      steps {
+        script {
+          node
+          {
+            docker.withRegistry('https://10.1.53.13/','dtr-login'){
+              // dtr-login is a login ID in credentials
+              git 'https://github.com/Imransysg/example-voting-app.git/'
+              
+            }
+            
+          }
+        }
+        
+      }
+    }
+    stage('Vote Image') {
       parallel {
-        stage('syncing files') {
+        stage('Vote Image') {
           steps {
             script {
               node
               {
-                docker.withRegistry('https://10.1.53.13/','dtr-login'){
-                  // dtr-login is a login ID in credentials
+                docker.withRegistry('https://10.1.53.13/','dtr-login')
+                {
                   git 'https://github.com/Imransysg/example-voting-app.git/'
-                  
+                  def vote_img = docker.build('dockeradmin/voting-app-vote','./vote').push('latest')
                 }
                 
               }
@@ -21,25 +37,9 @@ pipeline {
         }
         stage('alpha') {
           steps {
-            git(url: 'https://github.com/Imransysg/example-voting-app.git', branch: 'alpha', credentialsId: 'im-git', poll: true, changelog: true)
+            git(url: 'https://github.com/Imransysg/example-voting-app.git', branch: 'alpha', changelog: true, credentialsId: 'im-git', poll: true)
           }
         }
-      }
-    }
-    stage('Vote Image') {
-      steps {
-        script {
-          node
-          {
-            docker.withRegistry('https://10.1.53.13/','dtr-login')
-            {
-              git 'https://github.com/Imransysg/example-voting-app.git/'
-              def vote_img = docker.build('dockeradmin/voting-app-vote','./vote').push('latest')
-            }
-            
-          }
-        }
-        
       }
     }
     stage('Worker Image') {

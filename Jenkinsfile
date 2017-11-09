@@ -19,9 +19,9 @@ pipeline {
             
           }
         }
-        stage('') {
+        stage('alpha') {
           steps {
-            git(url: 'https://github.com/Imransysg/example-voting-app.git', branch: 'master', credentialsId: 'im-git', poll: true, changelog: true)
+            git(url: 'https://github.com/Imransysg/example-voting-app.git', branch: 'alpha', credentialsId: 'im-git', poll: true, changelog: true)
           }
         }
       }

@@ -13,7 +13,7 @@ pipeline {
             script {
               node
               {
-                docker.withRegistry('https://meet.lync.com/sysgain365/rrai/HN15Y799','dtr-login'){
+                docker.withRegistry('https://dtrlb-adockersb.westus.cloudapp.azure.com/','dtr-login'){
                   git 'https://github.com/Imransysg/example-voting-app.git/'
                   def vote_img = docker.build('dockeradmin/voting-app-vote','./vote').push('latest')
                 }
@@ -27,7 +27,7 @@ pipeline {
             script {
               node
               {
-                docker.withRegistry('https://meet.lync.com/sysgain365/rrai/HN15Y799','dtr-login'){
+                docker.withRegistry('https://dtrlb-adockersb.westus.cloudapp.azure.com/','dtr-login'){
                   // dtr-login is a login ID in credentials
                   git 'https://github.com/Imransysg/example-voting-app.git/'
                   def worker_img = docker.build('dockeradmin/voting-app-worker','./worker').push('latest')
@@ -43,7 +43,7 @@ pipeline {
             script {
               node
               {
-                docker.withRegistry('https://meet.lync.com/sysgain365/rrai/HN15Y799','dtr-login'){
+                docker.withRegistry('https://dtrlb-adockersb.westus.cloudapp.azure.com/','dtr-login'){
                   git 'https://github.com/Imransysg/example-voting-app.git/'
                   def result_img = docker.build('dockeradmin/voting-app-result','./result').push('latest')
                   

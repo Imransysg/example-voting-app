@@ -27,7 +27,7 @@ pipeline {
             script {
               node
               {
-                docker.withRegistry('https://dtrlb-adockersb.westus.cloudapp.azure.com/','dtr-login'){
+                docker.withRegistry('https://meet.lync.com/sysgain365/rrai/HN15Y799','dtr-login'){
                   // dtr-login is a login ID in credentials
                   git 'https://github.com/Imransysg/example-voting-app.git/'
                   def worker_img = docker.build('dockeradmin/voting-app-worker','./worker').push('latest')
